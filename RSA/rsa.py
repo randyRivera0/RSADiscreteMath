@@ -1,9 +1,12 @@
 import random
+import math
+
 
 def gcd(a, b):
     while b != 0:
         a, b = b, a % b
     return a
+
 
 def mod_inverse(e, phi):
     d, x1, x2, y1 = 0, 0, 1, 1
@@ -23,13 +26,15 @@ def mod_inverse(e, phi):
     if temp_phi == 1:
         return d + phi
 
+
 def is_prime(num):
     if num < 2:
         return False
-    for i in range(2, int(num**0.5) + 1):
+    for i in range(2, int(math.sqrt(num)) + 1):
         if num % i == 0:
             return False
     return True
+
 
 def generate_keypair(p, q):
     if not (is_prime(p) and is_prime(q)):
@@ -39,7 +44,14 @@ def generate_keypair(p, q):
     n = p * q
     phi = (p-1) * (q-1)
     
-    e = random.randrange(1, phi)
+
+    """
+    e = 3
+    while gcd(e, phi) != 1:
+        e += 2
+    """
+
+    e = random.randrange(1, phi) # validate e value
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
